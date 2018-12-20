@@ -1,2 +1,2 @@
 # sudokusolver
-A maven webapp to solve sudoku!
+A Maven+Spring MVC webapp to solve sudoku!
