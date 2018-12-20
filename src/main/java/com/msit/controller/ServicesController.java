@@ -32,11 +32,16 @@ public class ServicesController {
 		return solver.solveBoard(model.getBoard());
 	}
 	
-	@RequestMapping(value = "/random", method = RequestMethod.POST)
-	public int[][] getRandomPreset(@RequestBody String request) throws JsonParseException, JsonMappingException, IOException {	
-		Model model = mapper.readValue(request, Model.class);
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	public boolean check(@RequestBody String request) throws JsonParseException, JsonMappingException, IOException {	
+		Model model = mapper.readValue(request, Model.class); // Maps request values to a model obj.
 		solver = new BacktrackingAlgorithm();
-		return solver.solveBoard(model.getBoard());
+		return solver.solve(model.getBoard());
+	}
+	
+	@RequestMapping(value = "/random", method = RequestMethod.POST)
+	public int[][] getRandomPreset(){	
+		return new Model().getRandomPreset();
 	}
 
 }

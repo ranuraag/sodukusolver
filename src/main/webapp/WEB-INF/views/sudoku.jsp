@@ -66,19 +66,21 @@
                 board[i] = [];
             }
 
-            // Load random preset 
+            // Load random preset button clicked
             $(document).ready(function() {
-                $.ajax({
-                    type: "POST",
-                    url: "/sudokusolver/services/random",
-                    data: JSON.stringify(objWrapper),
-                    contentType: 'application/json',
-                    success: function(data) {
-                        writeBoard(data)
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        //alert("Error, status = " + textStatus + ", " + "error thrown: " + errorThrown);
-                    }
+                $("#randbtn").click(function() {
+                    $.ajax({
+                        type: "POST",
+                        url: "/sudokusolver/services/random",
+                        data: JSON.stringify(objWrapper),
+                        contentType: 'application/json',
+                        success: function(data) {
+                            writeBoard(data)
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            //alert("Error, status = " + textStatus + ", " + "error thrown: " + errorThrown);
+                        }
+                    });
                 });
             });
 
@@ -106,8 +108,33 @@
                     });
                 });
             });
+            
+            // Check button clicked
+            $(document).ready(function() {
+                $("#checkbtn").click(function() {
+                    var objWrapper = {};
+                    objWrapper.board = readBoard();
 
-            function writeBoard(var data) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/sudokusolver/services/check",
+                        data: JSON.stringify(objWrapper),
+                        contentType: 'application/json',
+                        success: function(data) {
+                            if data {
+                                $("#msg").text("Invalid solution.")
+                            } else {
+                                $("#msg").text("Valid solution.")
+                            }
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            //alert("Error, status = " + textStatus + ", " + "error thrown: " + errorThrown);
+                        }
+                    });
+                });
+            });
+
+            function writeBoard(data) {
                 board = data; // this is redundant
                 var cellNo = 0;
                 for (var i = 0; i < 9; i++) {
@@ -146,11 +173,11 @@
 
                 <tr>
                     <td><input class="top left" id="cell-0" type="text" value="5" disabled></td>
-                    <td><input class="top" id="cell-1" type="text" value="3" disabled></td>
+                    <td><input class="top" id="cell-1" type="text" value="3"></td>
                     <td><input class="top right" id="cell-2" type="text"></td>
 
                     <td><input class="top left" id="cell-3" type="text"></td>
-                    <td><input class="top" id="cell-4" type="text" value="7" disabled></td>
+                    <td><input class="top" id="cell-4" type="text" value="7"></td>
                     <td><input class="top right" id="cell-5" type="text"></td>
 
                     <td><input class="top left" id="cell-6" type="text"></td>
@@ -159,13 +186,13 @@
                 </tr>
 
                 <tr>
-                    <td><input class="left" id="cell-9" type="text" value="6" disabled></td>
+                    <td><input class="left" id="cell-9" type="text" value="6"></td>
                     <td><input class="" id="cell-10" type="text"></td>
                     <td><input class="right" id="cell-11" type="text"></td>
 
-                    <td><input class="left" id="cell-12" type="text" value="1" disabled></td>
-                    <td><input class="" id="cell-13" type="text" value="9" disabled></td>
-                    <td><input class="right" id="cell-14" type="text" value="5" disabled></td>
+                    <td><input class="left" id="cell-12" type="text" value="1"></td>
+                    <td><input class="" id="cell-13" type="text" value="9"></td>
+                    <td><input class="right" id="cell-14" type="text" value="5"></td>
 
                     <td><input class="left" id="cell-15" type="text"></td>
                     <td><input class="" id="cell-16" type="text"></td>
@@ -174,71 +201,71 @@
 
                 <tr>
                     <td><input class="bottom left" id="cell-18" type="text"></td>
-                    <td><input class="bottom" id="cell-19" type="text" value="9" disabled></td>
-                    <td><input class="right bottom" id="cell-20" type="text" value="8" disabled></td>
+                    <td><input class="bottom" id="cell-19" type="text" value="9"></td>
+                    <td><input class="right bottom" id="cell-20" type="text" value="8"></td>
 
                     <td><input class="bottom left" id="cell-21" type="text"></td>
                     <td><input class="bottom" id="cell-22" type="text"></td>
                     <td><input class="right bottom" id="cell-23" type="text"></td>
 
                     <td><input class="bottom left" id="cell-24" type="text"></td>
-                    <td><input class="bottom" id="cell-25" type="text" value="6" disabled></td>
+                    <td><input class="bottom" id="cell-25" type="text" value="6"></td>
                     <td><input class="right bottom" id="cell-26" type="text"></td>
                 </tr>
 
                 <tr>
-                    <td><input class="top left" id="cell-27" type="text" value="8" disabled></td>
+                    <td><input class="top left" id="cell-27" type="text" value="8"></td>
                     <td><input class="top" id="cell-28" type="text"></td>
                     <td><input class="top right" id="cell-29" type="text"></td>
 
                     <td><input class="top left" id="cell-30" type="text"></td>
-                    <td><input class="top" id="cell-31" type="text" value="6" disabled></td>
+                    <td><input class="top" id="cell-31" type="text" value="6"></td>
                     <td><input class="top right" id="cell-32" type="text"></td>
 
                     <td><input class="top left" id="cell-33" type="text"></td>
                     <td><input class="top" id="cell-34" type="text"></td>
-                    <td><input class="top right" id="cell-35" type="text" value="3" disabled></td>
+                    <td><input class="top right" id="cell-35" type="text" value="3"></td>
                 </tr>
 
                 <tr>
-                    <td><input class="left" id="cell-36" type="text" value="4" disabled></td>
+                    <td><input class="left" id="cell-36" type="text" value="4"></td>
                     <td><input class="" id="cell-37" type="text"></td>
                     <td><input class="right" id="cell-38" type="text"></td>
 
-                    <td><input class="left" id="cell-39" type="text" value="8" disabled></td>
+                    <td><input class="left" id="cell-39" type="text" value="8"></td>
                     <td><input class="" id="cell-40" type="text"></td>
-                    <td><input class="right" id="cell-41" type="text" value="3" disabled></td>
+                    <td><input class="right" id="cell-41" type="text" value="3"></td>
 
                     <td><input class="left" id="cell-42" type="text"></td>
                     <td><input class="" id="cell-43" type="text"></td>
-                    <td><input class="right" id="cell-44" type="text" value="1" disabled></td>
+                    <td><input class="right" id="cell-44" type="text" value="1"></td>
                 </tr>
 
                 <tr>
-                    <td><input class="bottom left" id="cell-45" type="text" value="7" disabled></td>
+                    <td><input class="bottom left" id="cell-45" type="text" value="7"></td>
                     <td><input class="bottom" id="cell-46" type="text"></td>
                     <td><input class="right bottom" id="cell-47" type="text"></td>
 
                     <td><input class="bottom left" id="cell-48" type="text"></td>
-                    <td><input class="bottom" id="cell-49" type="text" value="2" disabled></td>
+                    <td><input class="bottom" id="cell-49" type="text" value="2"></td>
                     <td><input class="right bottom" id="cell-50" type="text"></td>
 
                     <td><input class="bottom left" id="cell-51" type="text"></td>
                     <td><input class="bottom" id="cell-52" type="text"></td>
-                    <td><input class="right bottom" id="cell-53" type="text" value="6" disabled></td>
+                    <td><input class="right bottom" id="cell-53" type="text" value="6"></td>
                 </tr>
 
                 <tr>
                     <td><input class="top left" id="cell-54" type="text"></td>
-                    <td><input class="top" id="cell-55" type="text" value="6" disabled></td>
+                    <td><input class="top" id="cell-55" type="text" value="6"></td>
                     <td><input class="top right" id="cell-56" type="text"></td>
 
                     <td><input class="top left" id="cell-57" type="text"></td>
                     <td><input class="top" id="cell-58" type="text"></td>
                     <td><input class="top right" id="cell-59" type="text"></td>
 
-                    <td><input class="top left" id="cell-60" type="text" value="2" disabled></td>
-                    <td><input class="top" id="cell-61" type="text" value="8" disabled></td>
+                    <td><input class="top left" id="cell-60" type="text" value="2"></td>
+                    <td><input class="top" id="cell-61" type="text" value="8"></td>
                     <td><input class="top right" id="cell-62" type="text"></td>
                 </tr>
 
@@ -247,13 +274,13 @@
                     <td><input class="" id="cell-64" type="text"></td>
                     <td><input class="right" id="cell-65" type="text"></td>
 
-                    <td><input class="left" id="cell-66" type="text" value="4" disabled></td>
-                    <td><input class="" id="cell-67" type="text" value="1" disabled></td>
-                    <td><input class="right" id="cell-68" type="text" value="9" disabled></td>
+                    <td><input class="left" id="cell-66" type="text" value="4"></td>
+                    <td><input class="" id="cell-67" type="text" value="1"></td>
+                    <td><input class="right" id="cell-68" type="text" value="9"></td>
 
                     <td><input class="left" id="cell-69" type="text"></td>
                     <td><input class="" id="cell-70" type="text"></td>
-                    <td><input class="right" id="cell-71" type="text" value="5" disabled></td>
+                    <td><input class="right" id="cell-71" type="text" value="5"></td>
                 </tr>
 
                 <tr>
@@ -262,16 +289,19 @@
                     <td><input class="right bottom " id="cell-74" type="text"></td>
 
                     <td><input class="bottom left" id="cell-75" type="text"></td>
-                    <td><input class="bottom" id="cell-76" type="text" value="8" disabled></td>
+                    <td><input class="bottom" id="cell-76" type="text" value="8"></td>
                     <td><input class="right bottom" id="cell-77" type="text"></td>
 
                     <td><input class="bottom left" id="cell-78" type="text"></td>
-                    <td><input class="bottom" id="cell-79" type="text" value="7" disabled></td>
-                    <td><input class="right bottom" id="cell-80" type="text" value="9" disabled></td>
+                    <td><input class="bottom" id="cell-79" type="text" value="7"></td>
+                    <td><input class="right bottom" id="cell-80" type="text" value="9"></td>
                 </tr>
 
             </table>
+            <br>
+            <button id="randbtn">Get Random</button>
             <button id="solvebtn">Solve</button>
+            <button id="checkbtn">Check</button>
             <p id="msg"></p>
         </div>
     </body>

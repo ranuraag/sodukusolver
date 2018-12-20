@@ -46,7 +46,7 @@ public class BacktrackingAlgorithm {
         }
     }
 
-    private boolean solve(int[][] board) {
+    public boolean solve(int[][] board) {
         for (int row = BOARD_START_INDEX; row < BOARD_SIZE; row++) {
             for (int column = BOARD_START_INDEX; column < BOARD_SIZE; column++) {
                 if (board[row][column] == NO_VALUE) {
